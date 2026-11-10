@@ -60,7 +60,7 @@
   L.marker([DATA.shop.y, DATA.shop.x], {
     icon: L.divIcon({ className: '', html: '<div class="shop-icon"></div>', iconSize: [22, 22], iconAnchor: [11, 11] }),
     title: "Façade's Front, the penguin shop",
-  }).addTo(map).bindPopup('<div class="pop"><h3>Façade\'s Front</h3><div class="sub">The penguin shop · Adventurer\'s Guild ruins</div>Talk to the door (Fishy Façade). Any answer to its password question works. Trade Penguin Coins here.<div class="acts"><button data-act="guide">Open the quest guide</button></div></div>');
+  }).addTo(map).bindPopup('<div class="pop"><h3>Façade\'s Front</h3><div class="sub">The penguin shop · Adventurer\'s Guild ruins</div>Talk to the door (Fishy Façade). Any answer to its password question works. Trade Penguin Coins here.<div class="xy">X ' + fmt(DATA.shop.x) + ' · Y ' + fmt(DATA.shop.y) + ' · Z ' + fmt(DATA.shop.z || 0) + '</div><div class="acts"><button data-act="guide">Open the quest guide</button></div></div>');
 
   const markers = new Map();
   for (const s of DATA.spots) {
