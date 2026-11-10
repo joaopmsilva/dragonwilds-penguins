@@ -4,6 +4,9 @@
 
 👉 **https://joaopmsilva.github.io/dragonwilds-penguins/**
 
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/paradoxjs)
+[![RSDWServerAPI](https://img.shields.io/badge/Server%20mod-RSDWServerAPI-5865F2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/joaopmsilva/RSDWServerAPI)
+
 Update 1.0.2 hid the Killer Gentoo Penguins (the KGP) across Ashenfall. This site shows where they can be,
 and how the hunt works:
 
@@ -59,6 +62,12 @@ Spots are described from the place names on the in-game map. A patch can change 
 - Fan-made and not affiliated with Jagex.
 - The site's own code (`index.html`, `app.js`, `style.css`) is MIT licensed.
 
-If this helped your hunt: [☕ buy me a coffee](https://buymeacoffee.com/paradoxjs).
+## ☕ Support
+
+This guide is free and ad-free. If it saved you some hunting, **[buy me a coffee](https://buymeacoffee.com/paradoxjs)**: it keeps the data updated after each patch.
+
+## 🐉 Run a Dragonwilds server?
+
+**[RSDWServerAPI](https://github.com/joaopmsilva/RSDWServerAPI)** is a free server mod and Discord bot for Linux dedicated servers. It puts a penguin leaderboard in your Discord, along with live skills, two-way chat, death and quest feeds, raid alerts and admin tools. Players don't install anything.
 
 Made by Paradox. Found a wrong spot or something the game changed? [Open an issue](https://github.com/joaopmsilva/dragonwilds-penguins/issues).
