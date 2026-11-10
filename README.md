@@ -15,8 +15,17 @@ and how the hunt works:
 ## Coordinates
 
 Every spot's world coordinates (X, Y, Z in game units, centimetres) are shown in the list and each pin's pop-up.
-They're also downloadable in the wiki's map format (`[{"x": …, "y": …}, …]`, the same as
-[Module:Map/Oak_Tree.json](https://dragonwilds.runescape.wiki/w/Module:Map/Oak_Tree.json)):
+They're also downloadable in the wiki's map format, like
+[Module:Map/Oak_Tree.json](https://dragonwilds.runescape.wiki/w/Module:Map/Oak_Tree.json), with a pop-up
+`description` naming each spot's possible disguises:
+
+```json
+[
+  { "x": 62538, "y": 170092, "description": "Possible disguises: box, pot, barrel or sack." },
+  { "x": 124780, "y": 137011, "description": "Disguise: sack." }
+]
+```
+
 
 - [`data/penguins.json`](data/penguins.json): all 208 spots
 - [`data/penguins-world-map.json`](data/penguins-world-map.json): the 161 on the world map
