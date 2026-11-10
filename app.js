@@ -40,7 +40,7 @@
     transformation: new L.Transformation(mult, mult * offX, mult, mult * offY),
   });
   const bounds = L.latLngBounds([[-offY, -offX], [420000 - offY, 420000 - offX]]);
-  const map = L.map('map', { crs, maxBounds: bounds.pad(0.1), minZoom: 0, maxZoom: 6, zoomSnap: 0.5, zoomDelta: 0.5, attributionControl: false });
+  const map = L.map('map', { crs, maxBounds: bounds.pad(0.1), minZoom: 0, maxZoom: 6, zoomSnap: 1, zoomDelta: 1, attributionControl: false });
   L.tileLayer('tiles/{z}/{x}_{y}.png', { minNativeZoom: 0, maxNativeZoom: 4, maxZoom: 6, bounds, noWrap: true }).addTo(map);
   map.fitBounds(L.latLngBounds([[-80000, 0], [255000, 395000]]));
   const ll = s => L.latLng(s.y, s.x);
@@ -50,7 +50,7 @@
     interactive: false, keyboard: false,
     icon: L.divIcon({ className: '', html: '<div class="place-label">' + esc(p.name) + '</div>', iconSize: [0, 0] }),
   })));
-  const syncLabels = () => (map.getZoom() >= 1.5 ? labels.addTo(map) : labels.remove());
+  const syncLabels = () => (map.getZoom() >= 2 ? labels.addTo(map) : labels.remove());
   map.on('zoomend', syncLabels); syncLabels();
 
   // The shop.
@@ -152,7 +152,7 @@
       html += '<li class="spot' + (isFound ? ' found' : '') + (selected === s ? ' on' : '') + '" data-id="' + s.id + '" tabindex="0">' +
         '<input type="checkbox" aria-label="Found #' + s.n + '"' + (isFound ? ' checked' : '') + '>' +
         '<span class="num">#' + s.n + '</span><span class="where">' + esc(describe(s)) + '</span>' +
-        '<span class="meta"><span class="tag' + (s.dis === 'any disguise' ? '' : ' special') + '">' + esc(s.dis) + '</span>' +
+        '<span class="meta"><span class="tag' + (s.dis === 'box, pot, barrel or sack' ? '' : ' special') + '">' + esc(s.dis) + '</span>' +
         (s.r === OFF_MAP ? '<span>own zone, shown in the Scorned Wilderness view</span>' : '') + '</span></li>';
     }
     list.innerHTML = html || '<li class="empty">No spots match these filters.</li>';
@@ -218,7 +218,7 @@
       const s = spotById(h.slice(5));
       if (s) { region = 'all'; render(); select(s, true); return; }
     }
-    if (h === 'shop') { region = 'all'; render(); map.flyTo([DATA.shop.y, DATA.shop.x], 4.5, { duration: 0.6 }); return; }
+    if (h === 'shop') { region = 'all'; render(); map.flyTo([DATA.shop.y, DATA.shop.x], 5, { duration: 0.6 }); return; }
     const r = DATA.regions.find(x => slug(x) === h);
     region = r || 'all';
     render();
