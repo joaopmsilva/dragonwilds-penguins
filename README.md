@@ -18,23 +18,8 @@ and how the hunt works:
 ## Coordinates
 
 Every spot's world coordinates (X, Y, Z in game units, centimetres) are shown in the list and each pin's pop-up.
-They're also downloadable in the wiki's map format, like
-[Module:Map/Oak_Tree.json](https://dragonwilds.runescape.wiki/w/Module:Map/Oak_Tree.json), with a pop-up
-`description` naming each spot's possible disguises:
-
-```json
-[
-  { "x": 62538, "y": 170092, "description": "Possible disguises: box, pot, barrel or sack." },
-  { "x": 124780, "y": 137011, "description": "Disguise: sack." }
-]
-```
-
-
-- [`data/penguins.json`](data/penguins.json): all 208 spots
-- [`data/penguins-world-map.json`](data/penguins-world-map.json): the 161 on the world map
-- [`data/penguins-scorned-wilderness.json`](data/penguins-scorned-wilderness.json): the 47 in Scorned Wilderness, which lie outside the world map's area
-
-[`data/spots.json`](data/spots.json) has everything the site uses: region, number, coordinates, disguise and directions.
+The penguin spots are also on the wiki's own map, on its
+[Penguin Hunting](https://dragonwilds.runescape.wiki/w/Penguin_Hunting) page.
 
 ## How the hunt works
 
