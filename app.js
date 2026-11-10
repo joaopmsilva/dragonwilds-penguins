@@ -73,11 +73,14 @@
     const isFound = found.has(s.id);
     m.setStyle({ fillColor: isFound ? css('--found') : colorOf(s.r), fillOpacity: isFound ? 0.6 : 0.95, radius: selected === s ? 10 : 7 });
   }
+  // The game's world coordinates (centimetres), the same units the wiki's map uses.
+  const coords = s => 'X ' + fmt(s.x) + ' · Y ' + fmt(s.y) + ' · Z ' + fmt(s.z);
   function popupHtml(s) {
     const isFound = found.has(s.id);
     return '<div class="pop"><h3>' + esc(s.r) + ' #' + s.n + '</h3>' +
       '<div class="sub">' + esc(describe(s)) + '</div>' +
       'Disguise: <b>' + esc(s.dis) + '</b>' +
+      '<div class="xy">' + coords(s) + '</div>' +
       '<div class="acts"><button class="' + (isFound ? '' : 'primary') + '" data-act="found" data-id="' + s.id + '">' + (isFound ? 'Not found yet' : 'Mark as found') + '</button>' +
       '<button data-act="link" data-id="' + s.id + '">Copy link</button></div></div>';
   }
@@ -175,6 +178,7 @@
         '<input type="checkbox" aria-label="Found #' + s.n + '"' + (isFound ? ' checked' : '') + '>' +
         '<span class="num">#' + s.n + '</span><span class="where">' + esc(describe(s)) + '</span>' +
         '<span class="meta"><span class="tag' + (s.dis === 'box, pot, barrel or sack' ? '' : ' special') + '">' + esc(s.dis) + '</span>' +
+        '<span class="xy">' + coords(s) + '</span>' +
         (s.r === OFF_MAP && region !== OFF_MAP ? '<span>own zone: pick Scorned Wilderness to see it</span>' : '') + '</span></li>';
     }
     list.innerHTML = html || '<li class="empty">No spots match these filters.</li>';

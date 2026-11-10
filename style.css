@@ -78,6 +78,9 @@ button { font: inherit; color: inherit; }
 .spot .num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
 .spot .where { font-weight: 500; font-size: 14px; }
 .spot .meta { grid-column: 3; display: flex; gap: 4px 10px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.xy { font-family: var(--font-mono); font-size: 11.5px; font-variant-numeric: tabular-nums; color: var(--muted); }
+.pop .xy { margin-top: 4px; }
+.downloads { font-size: 12px; color: var(--muted); }
 .tag { border: 1px solid var(--line); border-radius: 999px; padding: 0 7px; }
 .tag.special { border-color: var(--accent); color: var(--accent); }
 .empty { padding: 20px 14px; color: var(--muted); }

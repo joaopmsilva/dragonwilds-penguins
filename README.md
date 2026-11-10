@@ -12,6 +12,18 @@ and how the hunt works:
 - 🔎 **Filters** by region, disguise and place, and a link to share any spot
 - 📜 **A Penguin Hunting quest guide**: where to start, how the penguins work, what the shop sells, and what the gear needs to craft
 
+## Coordinates
+
+Every spot's world coordinates (X, Y, Z in game units, centimetres) are shown in the list and each pin's pop-up.
+They're also downloadable in the wiki's map format (`[{"x": …, "y": …}, …]`, the same as
+[Module:Map/Oak_Tree.json](https://dragonwilds.runescape.wiki/w/Module:Map/Oak_Tree.json)):
+
+- [`data/penguins.json`](data/penguins.json): all 208 spots
+- [`data/penguins-world-map.json`](data/penguins-world-map.json): the 161 on the world map
+- [`data/penguins-scorned-wilderness.json`](data/penguins-scorned-wilderness.json): the 47 in Scorned Wilderness, which lie outside the world map's area
+
+[`data/spots.json`](data/spots.json) has everything the site uses: region, number, coordinates, disguise and directions.
+
 ## How the hunt works
 
 - **3 penguins per region** are out at once, 18 across the six regions.
