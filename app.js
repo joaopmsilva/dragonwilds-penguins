@@ -1,6 +1,9 @@
 // KGP Field Guide: every penguin spawn spot on a zoomable map, with a per-browser "found" checklist.
 (async () => {
-  const DATA = await (await fetch('data/spots.json')).json();
+  const [DATA, ZONE] = await Promise.all([
+    fetch('data/spots.json').then(r => r.json()),
+    fetch('data/scorned.json').then(r => r.json()).catch(() => null),
+  ]);
   const REGION_COLOR = {
     'Brynmoor': '--r-brynmoor', 'Ghornfell': '--r-ghornfell', 'Fellhollow': '--r-fellhollow',
     'Scorned Wilderness': '--r-scorned', 'Dowdun Reach': '--r-dowdun', 'Umbral Sands': '--r-umbral',
@@ -97,11 +100,12 @@
 
   // ---- Scorned Wilderness (it isn't on the world map) ----
   const inset = document.getElementById('inset');
-  // Its own zoomable map in the same projection, on a 100 m grid, since the
-  // world map's tiles don't cover the zone.
+  // The game has no map picture for the zone, so it is drawn from the game's own data: the
+  // zone's outline and Rasthin's Rest (its map regions), Kuldra's tower, and a 100 m grid.
   // It is built the first time it is shown: Leaflet places shapes wrongly in a hidden container.
   const scorned = DATA.spots.filter(s => s.r === OFF_MAP);
-  const sb = L.latLngBounds(scorned.map(ll));
+  const outline = ZONE ? ZONE.outline.map(([x, y]) => L.latLng(y, x)) : null;
+  const sb = outline ? L.latLngBounds(outline) : L.latLngBounds(scorned.map(ll));
   let smap = null;
   for (const s of scorned) {
     const m = L.circleMarker(ll(s), { radius: 7, weight: 2, color: '#fff', fillOpacity: 0.95 });
@@ -113,14 +117,33 @@
     if (inset.hidden) return;
     if (smap) { smap.invalidateSize(); return; }
     smap = L.map('smap', { crs, minZoom: 1, maxZoom: 7, zoomSnap: 1, attributionControl: false, maxBounds: sb.pad(0.6) });
-    smap.fitBounds(sb.pad(0.08));
+    smap.fitBounds(sb.pad(0.06));
+    const label = (at, text, cls) => L.marker(at, { interactive: false, keyboard: false, icon: L.divIcon({ className: '', html: '<div class="' + cls + '">' + esc(text) + '</div>', iconSize: [0, 0] }) }).addTo(smap);
+    if (outline) {
+      // The land, in the same stone and ash tones as the world map's art.
+      L.polygon(outline, { color: '#2b2622', weight: 3, fillColor: '#857a6b', fillOpacity: 1, interactive: false }).addTo(smap);
+      L.polygon(outline, { color: '#c9b99a', weight: 1, opacity: 0.6, fill: false, interactive: false, dashArray: '2 6' }).addTo(smap);
+    }
     const grid = [];
-    const g0x = Math.floor(sb.getWest() / 10000) * 10000 - 20000, g1x = Math.ceil(sb.getEast() / 10000) * 10000 + 20000;
-    const g0y = Math.floor(sb.getSouth() / 10000) * 10000 - 20000, g1y = Math.ceil(sb.getNorth() / 10000) * 10000 + 20000;
+    const g0x = Math.floor(sb.getWest() / 10000) * 10000, g1x = Math.ceil(sb.getEast() / 10000) * 10000;
+    const g0y = Math.floor(sb.getSouth() / 10000) * 10000, g1y = Math.ceil(sb.getNorth() / 10000) * 10000;
     for (let x = g0x; x <= g1x; x += 10000) grid.push([[g0y, x], [g1y, x]]);
     for (let y = g0y; y <= g1y; y += 10000) grid.push([[y, g0x], [y, g1x]]);
-    L.polyline(grid, { color: css('--muted'), weight: 1, opacity: 0.3, interactive: false }).addTo(smap);
-    L.marker(sb.getCenter(), { interactive: false, keyboard: false, icon: L.divIcon({ className: '', html: '<div class="place-label">Scorned Wilderness</div>', iconSize: [0, 0] }) }).addTo(smap);
+    L.polyline(grid, { color: '#2b2622', weight: 1, opacity: 0.18, interactive: false }).addTo(smap);
+    if (ZONE) {
+      for (const a of ZONE.areas) {
+        const poly = a.outline.map(([x, y]) => L.latLng(y, x));
+        L.polygon(poly, { color: '#f1e6cf', weight: 2, dashArray: '6 6', fillColor: '#a39377', fillOpacity: 0.55, interactive: false }).addTo(smap);
+        const b = L.latLngBounds(poly);
+        label(L.latLng(b.getSouth() + 3500, b.getCenter().lng), a.name, 'place-label'); // near its top edge
+      }
+      for (const lm of ZONE.landmarks) {
+        L.circleMarker([lm.y, lm.x], { radius: 5, color: '#2b2622', weight: 2, fillColor: '#f1e6cf', fillOpacity: 1, interactive: false }).addTo(smap);
+        label(L.latLng(lm.y, lm.x), lm.name, 'landmark-label');
+      }
+    }
+    // Larger y is further south (lower on screen), so getNorth() is the zone's bottom edge here.
+    label(outline ? L.latLng(sb.getNorth() + 7000, sb.getCenter().lng) : sb.getCenter(), 'Scorned Wilderness', 'zone-title');
     smap.on('popupopen', e => onPopup(e));
     for (const s of scorned) if (visible(s)) { markers.get(s.id).addTo(smap); styleMarker(s); }
   }

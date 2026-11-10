@@ -94,7 +94,10 @@ button { font: inherit; color: inherit; }
 
 /* Scorned Wilderness: its own map over the world map */
 .mapwrap .inset { position: absolute; inset: 0; z-index: 1100; background: var(--water); display: block; padding: 0; }
-#smap { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--r-scorned) 14%, var(--water)) 0%, var(--water) 70%); }
+/* Sea in the world map's grey-teal, so the zone reads like the rest of the map. */
+#smap { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, #62777a 0%, #4b5d61 75%); }
+.landmark-label { color: #f6eedd; font: 600 12px var(--font-body); white-space: nowrap; text-shadow: 0 1px 2px #000, 0 0 2px #000; pointer-events: none; transform: translate(10px, -50%); }
+.zone-title { color: #f1e6cf; font: 800 26px var(--font-display); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; text-shadow: 0 2px 4px rgba(0,0,0,.6); pointer-events: none; transform: translate(-50%, -50%); }
 .zone-note { position: absolute; top: 12px; left: 60px; right: 12px; z-index: 1000; margin: 0; max-width: 62ch; font-size: 13px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; color: var(--muted); }
 .zone-note b { color: var(--ink); }
 .zone-badge { font: 700 15px var(--font-display); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; color: #fff; background: var(--r-scorned); border: 2px solid #fff; border-radius: 999px; padding: 5px 12px; cursor: pointer; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,.45); }
