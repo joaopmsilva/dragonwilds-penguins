@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>KGP Field Guide · Dragonwilds penguin map</title>
+<meta name="description" content="Every place a Killer Gentoo Penguin can hide in RuneScape: Dragonwilds, on an interactive map with a found-it checklist, plus a full Penguin Hunting quest guide.">
+<meta property="og:title" content="KGP Field Guide · Dragonwilds penguin map">
+<meta property="og:description" content="All 208 penguin spawn spots on an interactive map, a found-it checklist and the Penguin Hunting quest guide.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#141a21">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='18' rx='10' ry='12' fill='%23141a21'/%3E%3Cellipse cx='16' cy='21' rx='6' ry='8' fill='%23fff'/%3E%3Ccircle cx='13' cy='12' r='1.6' fill='%23fff'/%3E%3Ccircle cx='19' cy='12' r='1.6' fill='%23fff'/%3E%3Cpath d='M13 15 L19 15 L16 18 Z' fill='%23d9481c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><h1>KGP Field Guide</h1><span class="ver">Dragonwilds 1.0.2</span></div>
+  <nav class="views" aria-label="View">
+    <a href="#map" data-view="map" aria-current="page">Map</a>
+    <a href="#guide" data-view="guide">Quest guide</a>
+  </nav>
+  <span class="progress" id="progress"></span>
+</header>
+
+<main class="mapview" id="mapview">
+  <aside class="sidebar" aria-label="Penguin spots">
+    <div class="filters">
+      <div class="chips" id="chips" aria-label="Region"></div>
+      <div class="row">
+        <input type="search" id="q" placeholder="Filter by place, e.g. Emberwood" aria-label="Filter spots by place">
+        <select id="disguise" aria-label="Disguise"><option value="all">Any disguise</option></select>
+      </div>
+      <div class="row">
+        <label class="toggle"><input type="checkbox" id="hideFound"> Hide spots I've found</label>
+        <span class="count" id="count"></span>
+        <button class="linkbtn" id="reset" type="button" hidden>New cycle: clear found</button>
+      </div>
+      <div class="confirm" id="confirm" hidden>Clear every spot you've marked as found? <button id="confirmYes" type="button">Clear</button><button class="no" id="confirmNo" type="button">Keep</button></div>
+    </div>
+    <ol class="list" id="list"></ol>
+  </aside>
+
+  <section class="mapwrap" aria-label="Map">
+    <div id="map"></div>
+    <div class="inset" id="inset" hidden>
+      <p><b>Scorned Wilderness</b> is its own zone, entered from the north-west of the Fractured Plains, so it isn't on the world map. Here are its 47 spots, north up.</p>
+      <svg id="insetSvg" role="img" aria-label="Scorned Wilderness penguin spots"></svg>
+    </div>
+    <div class="legend"><span><i style="background:var(--r-brynmoor)"></i>Penguin spot (by region)</span><span><i class="found"></i>Found</span><span><i class="shop"></i>Penguin shop</span></div>
+  </section>
+</main>
+
+<main class="guide" id="guide" hidden>
+  <div class="inner">
+    <section>
+      <h2>Penguin Hunting</h2>
+      <p class="lede">Update 1.0.2 let the Killer Gentoo Penguins (the KGP) loose across Ashenfall, disguised as everyday objects. Spot one, interact with it, and it flees and leaves you a Penguin Coin. Spend your coins on penguin armour, trinkets and decorations at Façade's Front.</p>
+      <div class="facts">
+        <div class="fact"><b>208</b><span>places a penguin can hide</span></div>
+        <div class="fact"><b>18</b><span>out at once: 3 in each of 6 regions</span></div>
+        <div class="fact"><b>7</b><span>in-game days until they move</span></div>
+        <div class="fact"><b>359</b><span>coins to buy everything in the shop</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h3>1. Start the hunt at Façade's Front</h3>
+      <p>Head to the <b>Adventurer's Guild ruins in Bramblemead Valley</b>, east of Bramblemead Village. Walk past Wormelbow's goblin cage at the entrance and the hidden reliquary, and talk to the door on the far side: that's <b>Fishy Façade</b>, a KGP informant pretending to be a door.</p>
+      <p><a class="btn" href="#shop">Show the shop on the map</a></p>
+      <div class="dialogue">
+        <div><span class="who">Fishy Façade:</span> Password?</div>
+        <div class="you">You pick one: "The Pidgeon Flies Left in Winter?", "Err... Lemon?" or "Password1234?"</div>
+        <div><span class="who">Fishy Façade:</span> What? Huh? That's not a thing. Who recruited you? Terry? I bet it was Terry...</div>
+      </div>
+      <p class="note">Any answer works. The door briefs you on the penguin menace anyway and the <b>Penguin Hunting</b> quest starts. It never ends ("It shall never be over"), so you can keep hunting. After the first talk, choose <b>"Just open the shop."</b> to go straight to the shop.</p>
+    </section>
+
+    <section>
+      <h3>2. Find the penguins</h3>
+      <ol>
+        <li><b>Three penguins per region</b> are out at a time, in Brynmoor, Ghornfell, Fellhollow, Scorned Wilderness, Dowdun Reach and Umbral Sands.</li>
+        <li><b>They hide as a box, pot, barrel or sack.</b> In Umbral Sands they're desert pots or rugs. Look for one that seems out of place.</li>
+        <li><b>Interact with it.</b> It reveals itself, flees, and you get <b>1 Penguin Coin</b>.</li>
+        <li><b>Each penguin counts once per character.</b> Your friends can find the same penguin for their own coin, so hunting together works.</li>
+        <li><b>Every 7 in-game days</b> the penguins move to new spots, and the hunt starts over.</li>
+      </ol>
+      <p>Each cycle the game fills 3 of a region's spots: in Brynmoor that's 3 of its 17, in Umbral Sands 3 of its 64. Use the <a href="#map">map</a> to work through a region's spots and tick off the ones you've checked. Your ticks stay in this browser; clear them when a new cycle starts.</p>
+    </section>
+
+    <section>
+      <h3>3. Spend your coins</h3>
+      <p>Trade Penguin Coins at Façade's Front. Everything is open from the start: no reputation and no level needed. Gear comes as an item you use to learn its recipe, then craft. Decorations come as building plans.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Reward</th><th>From the shop</th><th>Coins</th></tr></thead>
+          <tbody>
+            <tr><td>KGP Hat · "Turns you invisible. Except when it doesn't."</td><td>Scrap Mired in Subterfuge</td><td class="n">30</td></tr>
+            <tr><td>Penguin Cape</td><td>Prestigious Prototype</td><td class="n">30</td></tr>
+            <tr><td>Penguin armour set (body and legs)</td><td>Tuxedo Patch</td><td class="n">15</td></tr>
+            <tr><td>Penguin Helmet</td><td>Coral Nubbin</td><td class="n">15</td></tr>
+            <tr><td>Pescaling Amulet · better odds of pristine fish</td><td>Brine-Soaked Bauble</td><td class="n">15</td></tr>
+            <tr><td>Pescaling Ring · less stamina to reel fish in</td><td>Brine-Soaked Band</td><td class="n">15</td></tr>
+            <tr><td>Penguin Statue (plan)</td><td>Plan</td><td class="n">50</td></tr>
+            <tr><td>Gold Penguin Miniature</td><td>Plan</td><td class="n">15</td></tr>
+            <tr><td>Silver Penguin Miniature</td><td>Plan</td><td class="n">10</td></tr>
+            <tr><td>Four "Suspicious" miniatures (barrel, box, pan, sack)</td><td>Plans</td><td class="n">10 each</td></tr>
+            <tr><td>Bronze Penguin Miniature</td><td>Plan</td><td class="n">8</td></tr>
+            <tr><td>Copper Penguin Miniature</td><td>Plan</td><td class="n">7</td></tr>
+            <tr><td>Tin Penguin Miniature</td><td>Plan</td><td class="n">5</td></tr>
+            <tr><td>Stone Penguin Miniature</td><td>Plan</td><td class="n">3</td></tr>
+            <tr><td>Penguin Tapestry and Polar Bear Tapestry (art by Prezleek)</td><td>Plans</td><td class="n">5 each</td></tr>
+            <tr><td>Decorative Penguin Coin</td><td>Plan</td><td class="n">1</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="crafting">
+      <h3>4. Craft the gear</h3>
+      <p>Use the item from the shop to learn the recipe, then craft it. The armour pieces are made with <b>Artisan</b> and give 125 Artisan XP each.</p>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Item</th><th>Materials</th></tr></thead>
+          <tbody id="craftRows">
+            <tr><td>KGP Hat</td><td>3 Rough Cloth, 2 Coarse Thread, 1 Anchovy Bait</td></tr>
+            <tr><td>Penguin Helmet</td><td>2 Rough Cloth, 6 Feathers, 1 Raw Sardine, 1 Charcoal, 1 Adhesive</td></tr>
+            <tr><td>Penguin Body</td><td>3 Rough Cloth, 2 Leather, 10 Feathers, 2 Coarse Thread, 1 Swamp Tar</td></tr>
+            <tr><td>Penguin Legs</td><td>2 Rough Cloth, 2 Leather, 4 Feathers, 2 Coarse Thread, 1 Swamp Tar</td></tr>
+            <tr><td>Pescaling Amulet</td><td>2 Gold Bars, 15 Water Runes, 2 Coarse Thread, 1 Clay Mould, 1 Anchovy Bait</td></tr>
+            <tr><td>Pescaling Ring</td><td>2 Silver Bars, 15 Water Runes, 1 Clay Mould, 1 Sardine</td></tr>
+            <tr><td>Penguin Cape</td><td>No materials listed in the game files</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h3>5. Collect Agent Ravioli's reports</h3>
+      <p>The penguins keep notes on you. The journal has a <b>Penguin Report</b> for each region, signed by Agent Ravioli: Brynmoor, Ghornfell, Fellhollow, Whispering Swamp, Dowdun Reach, Scorned Wilderness and Umbral Sands. There's also one for <b>Disgleiried</b>, an elven land that isn't in the game yet, so expect penguins to follow you there.</p>
+    </section>
+
+    <section>
+      <h3>Tips</h3>
+      <ul>
+        <li>Hunt with friends: everyone in the group gets a coin from the same penguin.</li>
+        <li>Penguins in Scorned Wilderness are in its own zone, so pick it in the map's region list.</li>
+        <li>Share a spot with the <b>Copy link</b> button in its pop-up.</li>
+        <li>The whole shop costs 359 coins, which is 20 cycles at 18 penguins each. The KGP Hat and the cape are the big ones at 30 coins each.</li>
+      </ul>
+    </section>
+
+    <section class="note">
+      <p>Made by reading the game's own files (spawn spots, prices, recipes and dialogue) from the 1.0.2 dedicated server, so it may change with patches. Directions are measured from the place names on the in-game map. Not affiliated with Jagex.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <span>Map tiles from the <a href="https://dragonwilds.runescape.wiki/" target="_blank" rel="noopener">RuneScape: Dragonwilds Wiki</a> (CC BY-NC-SA 3.0). RuneScape: Dragonwilds © Jagex. Fan-made, not affiliated with Jagex.</span>
+  <a href="https://github.com/joaopmsilva/dragonwilds-penguins" target="_blank" rel="noopener">Source on GitHub</a>
+  <a class="coffee" href="https://buymeacoffee.com/paradoxjs" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h13v6a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V8z" fill="#141a21"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17" fill="none" stroke="#141a21" stroke-width="2"/><path d="M8 3c0 1.5 1.5 1.5 1.5 3M12 3c0 1.5 1.5 1.5 1.5 3" fill="none" stroke="#141a21" stroke-width="1.6" stroke-linecap="round"/></svg>Buy me a coffee</a>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
