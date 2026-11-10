@@ -29,7 +29,7 @@
     mapView.hidden = name !== 'map';
     guideView.hidden = name !== 'guide';
     viewLinks.forEach(a => { if (a.dataset.view === name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
-    if (name === 'map') setTimeout(() => map.invalidateSize(), 0);
+    if (name === 'map') setTimeout(() => { map.invalidateSize(); if (!inset.hidden) showScorned(); }, 0);
   }
 
   // ---- map ----
@@ -81,7 +81,8 @@
       '<div class="acts"><button class="' + (isFound ? '' : 'primary') + '" data-act="found" data-id="' + s.id + '">' + (isFound ? 'Not found yet' : 'Mark as found') + '</button>' +
       '<button data-act="link" data-id="' + s.id + '">Copy link</button></div></div>';
   }
-  map.on('popupopen', e => {
+  map.on('popupopen', e => onPopup(e));
+  function onPopup(e) {
     e.popup.getElement().addEventListener('click', ev => {
       const b = ev.target.closest('button');
       if (!b) return;
@@ -89,22 +90,43 @@
       if (b.dataset.act === 'link') copyLink(b.dataset.id, b);
       if (b.dataset.act === 'guide') location.hash = 'guide';
     });
-  });
-
-  // ---- Scorned Wilderness inset (it isn't on the world map) ----
-  const inset = document.getElementById('inset'), insetSvg = document.getElementById('insetSvg');
-  function drawInset() {
-    const spots = DATA.spots.filter(s => s.r === OFF_MAP && visible(s));
-    const all = DATA.spots.filter(s => s.r === OFF_MAP);
-    const xs = all.map(s => s.x), ys = all.map(s => s.y);
-    const pad = 3000, minX = Math.min(...xs) - pad, minY = Math.min(...ys) - pad;
-    const w = Math.max(...xs) - minX + pad, h = Math.max(...ys) - minY + pad, u = Math.max(w, h) / 100;
-    insetSvg.setAttribute('viewBox', minX + ' ' + minY + ' ' + w + ' ' + h);
-    insetSvg.innerHTML = spots.map(s => '<circle class="pin" data-id="' + s.id + '" cx="' + s.x + '" cy="' + s.y + '" r="' + u * (selected === s ? 1.8 : 1.2) +
-      '" stroke-width="' + u * 0.35 + '" fill="' + (found.has(s.id) ? css('--found') : colorOf(OFF_MAP)) + '"><title>#' + s.n + ' · ' + esc(describe(s)) + '</title></circle>').join('') +
-      '<text x="' + (minX + w - u * 2) + '" y="' + (minY + u * 5) + '" font-size="' + u * 3.4 + '" text-anchor="end" fill="' + css('--muted') + '" font-family="IBM Plex Mono, monospace">N ↑</text>';
   }
-  insetSvg.addEventListener('click', e => { const id = e.target.closest('.pin')?.dataset.id; if (id) select(spotById(id), true); });
+
+  // ---- Scorned Wilderness (it isn't on the world map) ----
+  const inset = document.getElementById('inset');
+  // Its own zoomable map in the same projection, on a 100 m grid, since the
+  // world map's tiles don't cover the zone.
+  // It is built the first time it is shown: Leaflet places shapes wrongly in a hidden container.
+  const scorned = DATA.spots.filter(s => s.r === OFF_MAP);
+  const sb = L.latLngBounds(scorned.map(ll));
+  let smap = null;
+  for (const s of scorned) {
+    const m = L.circleMarker(ll(s), { radius: 7, weight: 2, color: '#fff', fillOpacity: 0.95 });
+    m.on('click', () => select(s, false));
+    m.bindPopup(() => popupHtml(s), { autoPan: true });
+    markers.set(s.id, m);
+  }
+  function showScorned() {
+    if (inset.hidden) return;
+    if (smap) { smap.invalidateSize(); return; }
+    smap = L.map('smap', { crs, minZoom: 1, maxZoom: 7, zoomSnap: 1, attributionControl: false, maxBounds: sb.pad(0.6) });
+    smap.fitBounds(sb.pad(0.08));
+    const grid = [];
+    const g0x = Math.floor(sb.getWest() / 10000) * 10000 - 20000, g1x = Math.ceil(sb.getEast() / 10000) * 10000 + 20000;
+    const g0y = Math.floor(sb.getSouth() / 10000) * 10000 - 20000, g1y = Math.ceil(sb.getNorth() / 10000) * 10000 + 20000;
+    for (let x = g0x; x <= g1x; x += 10000) grid.push([[g0y, x], [g1y, x]]);
+    for (let y = g0y; y <= g1y; y += 10000) grid.push([[y, g0x], [y, g1x]]);
+    L.polyline(grid, { color: css('--muted'), weight: 1, opacity: 0.3, interactive: false }).addTo(smap);
+    L.marker(sb.getCenter(), { interactive: false, keyboard: false, icon: L.divIcon({ className: '', html: '<div class="place-label">Scorned Wilderness</div>', iconSize: [0, 0] }) }).addTo(smap);
+    smap.on('popupopen', e => onPopup(e));
+    for (const s of scorned) if (visible(s)) { markers.get(s.id).addTo(smap); styleMarker(s); }
+  }
+
+  // On the world map, the zone is painted as the island west of the continent: a button there opens it.
+  L.marker([-12100, -1500], {
+    title: 'Scorned Wilderness: 47 spots',
+    icon: L.divIcon({ className: '', html: '<button class="zone-badge" type="button">Scorned Wilderness · 47 spots</button>', iconSize: [0, 0] }),
+  }).addTo(map).on('click', () => { location.hash = slug(OFF_MAP); });
 
   // ---- filters ----
   const chips = document.getElementById('chips');
@@ -153,17 +175,18 @@
         '<input type="checkbox" aria-label="Found #' + s.n + '"' + (isFound ? ' checked' : '') + '>' +
         '<span class="num">#' + s.n + '</span><span class="where">' + esc(describe(s)) + '</span>' +
         '<span class="meta"><span class="tag' + (s.dis === 'box, pot, barrel or sack' ? '' : ' special') + '">' + esc(s.dis) + '</span>' +
-        (s.r === OFF_MAP ? '<span>own zone, shown in the Scorned Wilderness view</span>' : '') + '</span></li>';
+        (s.r === OFF_MAP && region !== OFF_MAP ? '<span>own zone: pick Scorned Wilderness to see it</span>' : '') + '</span></li>';
     }
     list.innerHTML = html || '<li class="empty">No spots match these filters.</li>';
 
     for (const s of DATA.spots) {
       const m = markers.get(s.id);
       if (!m) continue;
-      if (visible(s)) { m.addTo(map); styleMarker(s); } else m.remove();
+      const on = s.r === OFF_MAP ? smap : map;
+      if (visible(s) && on) { m.addTo(on); styleMarker(s); } else m.remove();
     }
-    inset.hidden = region !== OFF_MAP;
-    if (region === OFF_MAP) drawInset();
+    const showZone = region === OFF_MAP;
+    if (inset.hidden === showZone) { inset.hidden = !showZone; if (showZone) showScorned(); }
   }
   list.addEventListener('click', e => {
     const li = e.target.closest('.spot');
@@ -186,17 +209,15 @@
     const prev = selected;
     selected = s;
     if (prev) styleMarker(prev);
-    if (s.r === OFF_MAP) {
-      if (region !== OFF_MAP && region !== 'all') location.hash = slug(OFF_MAP);
-      else if (region === 'all') { region = OFF_MAP; render(); }
-      drawInset();
-    } else {
-      if (region === OFF_MAP) { region = 'all'; render(); }
-      styleMarker(s);
-      const m = markers.get(s.id);
-      if (fly && m) { map.flyTo(ll(s), Math.max(map.getZoom(), 4), { duration: 0.6 }); setTimeout(() => m.openPopup(), 650); }
-      else if (m) m.openPopup();
-    }
+    const zone = s.r === OFF_MAP;
+    if (zone && region !== OFF_MAP) { region = OFF_MAP; render(); }
+    if (!zone && region === OFF_MAP) { region = 'all'; render(); }
+    styleMarker(s);
+    const m = markers.get(s.id), on = zone ? smap : map;
+    if (fly && m && on) {
+      on.flyTo(ll(s), Math.max(on.getZoom(), 4), { duration: 0.6 });
+      setTimeout(() => m.openPopup(), 650);
+    } else if (m && on) m.openPopup();
     list.querySelectorAll('.spot.on').forEach(el => el.classList.remove('on'));
     const li = list.querySelector('[data-id="' + s.id + '"]');
     if (li) { li.classList.add('on'); if (!fly) li.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }

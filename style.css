@@ -84,14 +84,18 @@ button { font: inherit; color: inherit; }
 
 .mapwrap { position: relative; min-height: 0; }
 #map { position: absolute; inset: 0; background: var(--water); }
-.inset { position: absolute; inset: 0; background: var(--bg); display: flex; flex-direction: column; padding: 16px; gap: 10px; z-index: 500; }
-.inset p { margin: 0; max-width: 60ch; color: var(--muted); font-size: 14px; }
-.inset svg { flex: 1; min-height: 0; width: 100%; background: var(--water); border-radius: 8px; }
-.inset .pin { cursor: pointer; stroke: #fff; }
 .legend { position: absolute; left: 12px; bottom: 12px; z-index: 600; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; display: flex; gap: 12px; flex-wrap: wrap; max-width: calc(100% - 24px); }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line); }
 .legend i.shop { border-radius: 2px; transform: rotate(45deg); background: var(--accent); }
 .legend i.found { background: var(--found); }
+
+/* Scorned Wilderness: its own map over the world map */
+.mapwrap .inset { position: absolute; inset: 0; z-index: 1100; background: var(--water); display: block; padding: 0; }
+#smap { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, color-mix(in srgb, var(--r-scorned) 14%, var(--water)) 0%, var(--water) 70%); }
+.zone-note { position: absolute; top: 12px; left: 60px; right: 12px; z-index: 1000; margin: 0; max-width: 62ch; font-size: 13px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 12px; color: var(--muted); }
+.zone-note b { color: var(--ink); }
+.zone-badge { font: 700 15px var(--font-display); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; color: #fff; background: var(--r-scorned); border: 2px solid #fff; border-radius: 999px; padding: 5px 12px; cursor: pointer; transform: translate(-50%, -50%); box-shadow: 0 2px 8px rgba(0,0,0,.45); }
+.zone-badge:hover { filter: brightness(1.1); }
 
 /* Leaflet bits */
 .leaflet-container { font-family: var(--font-body); background: var(--water); }
