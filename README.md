@@ -5,7 +5,8 @@
 👉 **https://joaopmsilva.github.io/dragonwilds-penguins/**
 
 [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/paradoxjs)
-[![RSDWServerAPI](https://img.shields.io/badge/Server%20mod-RSDWServerAPI-5865F2?style=for-the-badge&logo=github&logoColor=white)](https://github.com/joaopmsilva/RSDWServerAPI)
+[![Quest guides](https://img.shields.io/badge/Quest%20guides-every%20quest-9a5d12?style=for-the-badge)](https://joaopmsilva.github.io/dragonwilds-quests/)
+[![RSDWServerAPI](https://img.shields.io/badge/Server%20mod-RSDWServerAPI-5865F2?style=for-the-badge&logo=github&logoColor=white)](https://joaopmsilva.github.io/RSDWServerAPI/)
 
 Update 1.0.2 hid the Killer Gentoo Penguins (the KGP) across Ashenfall. This site shows where they can be,
 and how the hunt works:
@@ -51,8 +52,12 @@ Spots are described from the place names on the in-game map. A patch can change 
 
 This guide is free and ad-free. If it saved you some hunting, **[buy me a coffee](https://buymeacoffee.com/paradoxjs)**: it keeps the data updated after each patch.
 
+## 📜 Every other quest
+
+**[Dragonwilds Quest Guides](https://joaopmsilva.github.io/dragonwilds-quests/)** has a guide for every quest and activity in the game, with maps, pictures and a done checklist.
+
 ## 🐉 Run a Dragonwilds server?
 
-**[RSDWServerAPI](https://github.com/joaopmsilva/RSDWServerAPI)** is a free server mod and Discord bot for Linux dedicated servers. It puts a penguin leaderboard in your Discord, along with live skills, two-way chat, death and quest feeds, raid alerts and admin tools. Players don't install anything.
+**[RSDWServerAPI](https://joaopmsilva.github.io/RSDWServerAPI/)** is a free server mod and Discord bot for Linux dedicated servers. It puts a penguin leaderboard in your Discord, along with live skills, two-way chat, death and quest feeds, raid alerts and admin tools. Players don't install anything.
 
 Made by Paradox. Found a wrong spot or something the game changed? [Open an issue](https://github.com/joaopmsilva/dragonwilds-penguins/issues).

@@ -37,6 +37,22 @@ a { color: var(--accent); }
 button { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+/* The strip shared by the three Dragonwilds fan sites */
+.suite { display: flex; align-items: center; gap: 4px 18px; flex-wrap: wrap; padding: 6px 16px; background: #0e0c09; color: #b9ad98; font-size: 13px; flex: none; }
+.suite-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #8a7f6c; margin-right: 4px; }
+.suite a { color: #e8dfcf; text-decoration: none; padding: 2px 0; border-bottom: 2px solid transparent; }
+.suite a:hover { color: #fff; border-bottom-color: #e9a948; }
+.suite a[aria-current="page"] { color: #fff; border-bottom-color: #e9a948; font-weight: 600; }
+@media (max-width: 560px) { .suite-label { display: none; } .suite { gap: 4px 14px; justify-content: center; } }
+.allquests { display: flex; align-items: center; gap: 14px; margin-top: 18px; padding: 14px 16px; border-radius: 10px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid #9a5d12; color: var(--ink); text-decoration: none; font-size: 14px; }
+.allquests:hover { border-color: #9a5d12; }
+.allquests .aq-ico { font-size: 26px; line-height: 1; }
+.allquests b { display: block; font-size: 15px; }
+.allquests span:nth-child(2) { flex: 1; color: var(--muted); }
+.allquests span:nth-child(2) b { color: var(--ink); }
+.allquests .aq-go { font-weight: 600; color: var(--accent); white-space: nowrap; }
+@media (max-width: 520px) { .allquests { flex-wrap: wrap; } .allquests .aq-go { width: 100%; text-align: right; } }
+
 /* Top bar */
 .topbar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left)); border-bottom: 1px solid var(--line); background: var(--panel); }
 .brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
