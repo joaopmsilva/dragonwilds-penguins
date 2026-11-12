@@ -4,7 +4,7 @@
 
 👉 **https://joaopmsilva.github.io/dragonwilds-penguins/**
 
-[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-ffdd00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://buymeacoffee.com/paradoxjs)
+[![Support me on Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20me-ff5e5b?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/paradoxjs)
 [![Quest guides](https://img.shields.io/badge/Quest%20guides-every%20quest-9a5d12?style=for-the-badge)](https://joaopmsilva.github.io/dragonwilds-quests/)
 [![RSDWServerAPI](https://img.shields.io/badge/Server%20mod-RSDWServerAPI-5865F2?style=for-the-badge&logo=github&logoColor=white)](https://joaopmsilva.github.io/RSDWServerAPI/)
 
@@ -50,7 +50,7 @@ Spots are described from the place names on the in-game map. A patch can change 
 
 ## ☕ Support
 
-This guide is free and ad-free. If it saved you some hunting, **[buy me a coffee](https://buymeacoffee.com/paradoxjs)**: it keeps the data updated after each patch.
+This guide is free and ad-free. If it saved you some hunting, **[support me on Ko-fi](https://ko-fi.com/paradoxjs)**: it keeps the data updated after each patch.
 
 ## 📜 Every other quest
 
