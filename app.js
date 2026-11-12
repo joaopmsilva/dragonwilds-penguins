@@ -291,18 +291,8 @@
   }
 
   // ---- routing ----
-  // How many open the quest guide (the page view itself is counted on load).
-  // The counter script loads after this one, so a page opened straight on #guide waits for it.
-  let guideCounted = false, guideTries = 0;
-  function countGuide() {
-    if (guideCounted) return;
-    if (!window.goatcounter || !window.goatcounter.count) { if (guideTries++ < 20) setTimeout(countGuide, 500); return; }
-    guideCounted = true;
-    window.goatcounter.count({ path: 'view-quest-guide', title: 'Opened the quest guide', event: true });
-  }
   function route() {
     const h = location.hash.slice(1);
-    if (h === 'guide') countGuide();
     if (h === 'guide') { showView('guide'); return; }
     showView('map');
     if (h.startsWith('spot-')) {
