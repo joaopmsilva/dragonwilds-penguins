@@ -1,12 +1,15 @@
-/* KGP Field Guide - sea ice and penguin black, with the gentoo's orange bill as the one accent.
+/* KGP Field Guide. Shares its colours, fonts, header and the bar between the sites with the
+   quest guides; its own accent is the gentoo's orange bill (the quest guides' is bronze).
    Layout: a slim top bar with the two views (Map, Quest guide); the map view is a sidebar list
    beside a full-height map, stacked on phones. */
 :root {
-  --bg: #eef2f5;
+  --bg: #f3f2ef;
   --panel: #ffffff;
-  --ink: #141a21;
-  --muted: #5b6876;
-  --line: #d3dbe3;
+  --sunk: #ebe9e4;
+  --ink: #17181b;
+  --muted: #5f636b;
+  --line: #dcdad4;
+  --shadow: 0 1px 2px rgba(20, 20, 25, .06), 0 6px 18px rgba(20, 20, 25, .07);
   --accent: #c9431a;
   --accent-soft: #fbe3d9;
   --water: #c9d6df;
@@ -24,7 +27,8 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0f151b; --panel: #161e26; --ink: #e8eef3; --muted: #93a1ae; --line: #2a3540;
+    --bg: #121316; --panel: #1a1c20; --sunk: #16171a; --ink: #eceef1; --muted: #9b9fa8; --line: #2c2f35;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .35);
     --accent: #ff7a4a; --accent-soft: #3a2018; --water: #1a242d; --found: #5d6a77;
     color-scheme: dark;
   }
@@ -81,9 +85,10 @@ button { font: inherit; color: inherit; }
 
 /* Top bar */
 .topbar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left)); border-bottom: 1px solid var(--line); background: var(--panel); }
-.brand { display: flex; align-items: baseline; gap: 10px; margin-right: auto; }
-.brand h1 { font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1; margin: 0; letter-spacing: .01em; }
-.brand .ver { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+.brand { display: flex; align-items: center; gap: 10px; margin-right: auto; text-decoration: none; color: var(--ink); min-width: 0; }
+.brand .mark { width: 38px; height: 38px; flex: none; filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .25)); }
+.brand b, .brand h1 { display: block; margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 24px; line-height: 1; letter-spacing: .01em; }
+.brand small { display: block; margin-top: 3px; font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; }
 .views { display: flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 999px; border: 1px solid var(--line); }
 .views a { text-decoration: none; color: var(--ink); padding: 5px 14px; border-radius: 999px; font-weight: 500; font-size: 14px; }
 .views a[aria-current="page"] { background: var(--ink); color: var(--bg); }
@@ -185,8 +190,8 @@ td.n { font-family: var(--font-mono); text-align: right; white-space: nowrap; fo
 /* Footer */
 footer { border-top: 1px solid var(--line); background: var(--panel); padding: 10px max(16px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); font-size: 12px; color: var(--muted); display: flex; gap: 6px 18px; flex-wrap: wrap; align-items: center; }
 /* Buy Me a Coffee: its own yellow, on every view. */
-.coffee { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-weight: 700; text-decoration: none; background: #ffdd00; color: #141a21; border-radius: 999px; padding: 7px 16px; box-shadow: 0 2px 0 #c9a800, 0 3px 10px rgba(255, 221, 0, .35); transition: transform .15s, box-shadow .15s; white-space: nowrap; }
-.coffee:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #c9a800, 0 6px 16px rgba(255, 221, 0, .5); }
+.coffee { display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-body); font-size: 14px; font-weight: 700; text-decoration: none; background: #ffdd00; color: #17181b; border-radius: 999px; padding: 7px 16px; box-shadow: 0 2px 0 #c9a800, 0 3px 10px rgba(255, 221, 0, .3); transition: transform .15s, box-shadow .15s; white-space: nowrap; }
+.coffee:hover { transform: translateY(-1px); box-shadow: 0 3px 0 #c9a800, 0 6px 16px rgba(255, 221, 0, .45); }
 .coffee:active { transform: translateY(1px); box-shadow: 0 1px 0 #c9a800; }
 .coffee-top { font-size: 14px; }
 .coffee-foot { margin-left: auto; font-size: 14px; }
