@@ -131,9 +131,31 @@
     smap.fitBounds(sb.pad(0.06));
     const label = (at, text, cls) => L.marker(at, { interactive: false, keyboard: false, icon: L.divIcon({ className: '', html: '<div class="' + cls + '">' + esc(text) + '</div>', iconSize: [0, 0] }) }).addTo(smap);
     if (outline) {
-      // The land, in the same stone and ash tones as the world map's art.
-      L.polygon(outline, { color: '#2b2622', weight: 3, fillColor: '#857a6b', fillOpacity: 1, interactive: false }).addTo(smap);
-      L.polygon(outline, { color: '#c9b99a', weight: 1, opacity: 0.6, fill: false, interactive: false, dashArray: '2 6' }).addTo(smap);
+      // The land, painted like the world map's art: ash and stone with glowing cracks, drawn
+      // by the browser (an SVG filter clipped to the zone's outline), since the game has no picture.
+      const land = L.polygon(outline, { stroke: false, fillColor: '#857a6b', fillOpacity: 1, interactive: false }).addTo(smap);
+      const svg = land._path && land._path.ownerSVGElement;
+      if (svg && !svg.querySelector('#pg-scorch')) {
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        defs.innerHTML =
+          '<filter id="pg-scorch" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">' +
+            '<feTurbulence type="fractalNoise" baseFrequency="0.009" numOctaves="5" seed="4" result="n"/>' +
+            '<feColorMatrix in="n" type="matrix" values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1" result="g"/>' +
+            '<feComponentTransfer in="g" result="g2"><feFuncR type="linear" slope="2.2" intercept="-0.6"/><feFuncG type="linear" slope="2.2" intercept="-0.6"/><feFuncB type="linear" slope="2.2" intercept="-0.6"/></feComponentTransfer>' +
+            '<feComponentTransfer in="g2" result="land"><feFuncR type="table" tableValues="0.27 0.40 0.50 0.58 0.68"/><feFuncG type="table" tableValues="0.23 0.35 0.44 0.52 0.61"/><feFuncB type="table" tableValues="0.20 0.30 0.38 0.44 0.52"/></feComponentTransfer>' +
+            '<feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" seed="9" result="t"/>' +
+            '<feColorMatrix in="t" type="matrix" values="0 0 0 0 0.9 0 0 0 0 0.36 0 0 0 0 0.12 -6 0 0 0 0.5" result="veins"/>' +
+            '<feGaussianBlur in="veins" stdDeviation="3" result="glow"/>' +
+            '<feComponentTransfer in="glow" result="glow2"><feFuncA type="linear" slope="0.8"/></feComponentTransfer>' +
+            '<feMerge result="tex"><feMergeNode in="land"/><feMergeNode in="glow2"/><feMergeNode in="veins"/></feMerge>' +
+            '<feComposite in="tex" in2="SourceGraphic" operator="in"/>' +
+          '</filter>';
+        svg.insertBefore(defs, svg.firstChild);
+      }
+      if (land._path) land._path.setAttribute('filter', 'url(#pg-scorch)');
+      // The coast: a soft shadow, then a crisp edge.
+      L.polygon(outline, { color: '#1d1915', weight: 12, opacity: 0.35, fill: false, interactive: false }).addTo(smap);
+      L.polygon(outline, { color: '#2b2622', weight: 2.5, fill: false, interactive: false }).addTo(smap);
     }
     const grid = [];
     const g0x = Math.floor(sb.getWest() / 10000) * 10000, g1x = Math.ceil(sb.getEast() / 10000) * 10000;
