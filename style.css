@@ -149,8 +149,20 @@ footer { border-top: 1px solid var(--line); background: var(--panel); padding: 1
 .coffee-top { font-size: 14px; }
 .coffee-foot { margin-left: auto; font-size: 14px; }
 .coffee-big { font-size: 17px; padding: 10px 22px; }
-.toplink { font-size: 13px; font-weight: 500; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
-.toplink:hover { border-color: var(--accent); color: var(--accent); }
+.toplink { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--accent); text-decoration: none; background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
+.toplink:hover { background: var(--accent); color: #fff; }
+.toplink .short { display: none; }
+/* The mod, in the map view: a strip above the list, closed for good with x. */
+.promo { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 10px 10px 10px 14px; border-bottom: 1px solid var(--line); background: var(--accent-soft); }
+.promo-icon { font-size: 24px; line-height: 1; }
+.promo p { margin: 0; font-size: 13px; line-height: 1.35; }
+.promo .btn { padding: 4px 12px; font-size: 13px; white-space: nowrap; }
+.promo-x { border: 0; background: none; color: var(--muted); font-size: 20px; line-height: 1; padding: 2px 4px; cursor: pointer; border-radius: 6px; }
+.promo-x:hover { color: var(--ink); }
+/* The mod, in the guide: text beside the leaderboard screenshot. */
+.feature { background: var(--panel); border: 1px solid var(--accent); border-radius: 12px; padding: 18px; display: grid; gap: 16px; }
+.feature h3 { margin-top: 0; }
+.feature img { width: 100%; height: auto; border-radius: 8px; display: block; }
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
 .card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; justify-items: start; }
 .card h3 { margin: 0; }
@@ -168,6 +180,7 @@ footer { border-top: 1px solid var(--line); background: var(--panel); padding: 1
   .list { overflow: visible; }
   .group { top: 0; }
   .coffee-foot { margin-left: 0; }
-  .toplink { display: none; } /* the guide's card and the footer carry it on phones */
+  .toplink .long { display: none; }
+  .toplink .short { display: inline; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }

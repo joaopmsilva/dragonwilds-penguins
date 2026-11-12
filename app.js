@@ -1,4 +1,15 @@
 // KGP Field Guide: every penguin spawn spot on a zoomable map, with a per-browser "found" checklist.
+{
+  // ---- the server-mod strip above the list: once closed, it stays closed ----
+  const PROMO_KEY = 'kgp-promo-closed-v1';
+  const promo = document.getElementById('promo');
+  try { if (localStorage.getItem(PROMO_KEY)) promo.hidden = true; } catch (e) { /* private mode */ }
+  document.getElementById('promoClose').addEventListener('click', () => {
+    promo.hidden = true;
+    try { localStorage.setItem(PROMO_KEY, '1'); } catch (e) { /* ignore */ }
+  });
+}
+
 (async () => {
   const [DATA, ZONE] = await Promise.all([
     fetch('data/spots.json').then(r => r.json()),
