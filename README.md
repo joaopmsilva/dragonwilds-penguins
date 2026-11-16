@@ -43,7 +43,8 @@ Spots are described from the place names on the in-game map. A patch can change 
 
 ## Credits and licence
 
-- Map tiles: the [RuneScape: Dragonwilds Wiki](https://dragonwilds.runescape.wiki/) map, used under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+- Map tiles: the [RuneScape: Dragonwilds Wiki's map](https://dragonwilds.runescape.wiki/w/Map), by the wiki's editors, under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
+- Icons (`img/icons/`): [Quests journal icon](https://dragonwilds.runescape.wiki/w/File:Quests_journal_icon.png), [Lodestone](https://dragonwilds.runescape.wiki/w/File:Lodestone.png), [Penguin Coin](https://dragonwilds.runescape.wiki/w/File:Penguin_Coin.png), from the wiki, under [CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/).
 - _RuneScape: Dragonwilds_ and its map art © Jagex Ltd.
 - Fan-made and not affiliated with Jagex.
 - The site's own code (`index.html`, `app.js`, `style.css`) is MIT licensed.
